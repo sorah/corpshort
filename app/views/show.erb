@@ -1,0 +1,9 @@
+<h1><%= link_url(@link) %></h1>
+
+<a href="<%= edit_path(@link) %>">Edit</a>
+
+<p>URL: <a href="<%= @link.url %>"><%= @link.url %></a></p>
+
+<nav>
+  <p><a href="<%= urls_path(@link.url) %>">List all links for this URL</a></p>
+</nav>

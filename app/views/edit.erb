@@ -1,0 +1,12 @@
+<h1><%= link_url(@link) %></h1>
+
+<form action='<%= update_path(@link) %>' method='PUT'>
+  <p>Name: <input type='text' name='name' placeholder='short-name' value="<%= @link.name %>"></p>
+  <p>URL: <input type='text' name='url' placeholder='https://...' value="<%= @link.url %>"></p>
+  <p><input type='submit' value='Save'></p>
+</form>
+
+<form action='<%= update_path(@link) %>' method='DELETE'>
+  <p><input type='submit' value='Delete'></p>
+</form>
+

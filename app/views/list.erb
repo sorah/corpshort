@@ -1,0 +1,11 @@
+<h1><%= @title %></h1>
+
+<ul>
+  <% @links.each do |name| %>
+    <li><a href='/<%= name %>+'><%= name %></li>
+  <% end %>
+</ul>
+
+<% if @next_token %>
+  <a href="<%= request.path %>?token=<%= URI.encode_www_form_component(@next_token) %>">More...</a>
+<% end %>

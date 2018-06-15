@@ -1,12 +1,21 @@
-<form action='/+/links' method='POST'>
-  <p><input type='text' name='url' placeholder='https://...'></p>
-  <p><input type='text' name='name' placeholder='Short name'></p>
-  <p><input type='submit' value='Shorten'></p>
-</form>
-
-<nav>
-  <form action='/+' method='GET'>
-    <p>Edit a link: <input type='text' name='show' placeholder='name...'></p>
+<section class='new-link'>
+  <form action='/+/links' method='POST'>
+    <p><input type='text' name='url' placeholder='https://...' class='new-link-url'></p>
+    <p class='new-link-down'>↓</p>
+    <p><input type='text' name='name' placeholder='Short name' class='new-link-name'></p>
+    <p><input type='submit' value='Shorten'></p>
   </form>
-  <a href='/+/links'>Recent links</a>
-</nav>
+</section>
+
+<div class='infos'>
+  <section>
+    <h3>Notice</h3>
+  </section>
+  <section>
+    <h3>Usage</h3>
+    <form action='/+' method='GET'>
+      <p>Edit a link: <input type='text' name='show' placeholder='name...'> <input type='submit' value='Go'></p>
+    </form>
+    <p>Or add + (plus) sign after the URL like: <%= request.base_url %>/something → /something+</p>
+  </section>
+</div>

@@ -11,6 +11,7 @@ module Corpshort
 
       @name = data[:name] || data['name']
       @url = data[:url] || data['url']
+      @parsed_url_point = nil
       self.updated_at = data[:updated_at] || data['updated_at']
 
       validate!
@@ -18,6 +19,8 @@ module Corpshort
 
     def validate!
       raise ValidationError, "@name, @url are required" unless name && url
+      raise ValidationError, "@name couldn't be empty" if name.strip.empty?
+      raise ValidationError, "invalid @url (URL needs scheme and host to be considered valid)" unless parsed_url.scheme && parsed_url.host
     end
 
     def save!(backend = nil, create_only: false)
@@ -31,6 +34,14 @@ module Corpshort
     attr_reader :backend
     attr_reader :name, :updated_at
     attr_accessor :url
+
+    def parsed_url
+      @parsed_url = nil if @parsed_url_point != url
+      @parsed_url ||= url.yield_self do |u|
+        @parsed_url_point = u
+        URI.parse(u)
+      end
+    end
 
     def updated_at=(ts)
       @updated_at = case ts

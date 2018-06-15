@@ -11,12 +11,14 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    aws-partitions (1.82.0)
-    aws-sdk-core (3.20.2)
+    aws-eventstream (1.0.0)
+    aws-partitions (1.91.0)
+    aws-sdk-core (3.21.2)
+      aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-dynamodb (1.5.0)
+    aws-sdk-dynamodb (1.7.0)
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.2)
@@ -26,7 +28,7 @@ GEM
     mustermann (1.0.2)
     puma (3.11.4)
     rack (2.0.5)
-    rack-protection (2.0.1)
+    rack-protection (2.0.3)
       rack
     rake (12.3.1)
     redis (4.0.1)
@@ -43,10 +45,10 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
-    sinatra (2.0.1)
+    sinatra (2.0.3)
       mustermann (~> 1.0)
       rack (~> 2.0)
-      rack-protection (= 2.0.1)
+      rack-protection (= 2.0.3)
       tilt (~> 2.0)
     tilt (2.0.8)
 

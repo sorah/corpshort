@@ -75,7 +75,7 @@ module Corpshort
           if protocol
             url
           else
-            url.gsub(/^https:\/\//, '')
+            url.gsub(/\Ahttps?:\/\//, '')
           end
         end
       end

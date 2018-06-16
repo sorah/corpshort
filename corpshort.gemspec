@@ -28,6 +28,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency "redis"
   spec.add_dependency "aws-sdk-dynamodb"
 
+  spec.add_dependency "rqrcode"
+  spec.add_dependency "prawn"
+  spec.add_dependency "prawn-qrcode"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"

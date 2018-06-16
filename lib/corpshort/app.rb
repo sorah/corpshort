@@ -1,3 +1,7 @@
+require 'rqrcode'
+require 'prawn'
+require 'prawn/qrcode'
+
 require 'erubi'
 require 'sinatra/base'
 require 'rack/protection'
@@ -49,6 +53,8 @@ module Corpshort
     use Rack::MethodOverride
 
     helpers do
+      include Prawn::Measurements
+
       def context
         request.env[CONTEXT_RACK_ENV_NAME]
       end
@@ -133,11 +139,34 @@ module Corpshort
       redirect "/#{params[:name]}+"
     end
 
-    get '/+/links/:name/svg' do
+    get '/+/links/:name/simple.svg' do
+      @link = backend.get_link(params[:name])
+      if @link
+        content_type :svg
+        RQRCode::QRCode.new(link_url(@link), level: :m).as_svg(module_size: 6)
+      else
+        halt 404, "not found"
+      end
     end
-    get '/+/links/:name/png' do
+    get '/+/links/:name/simple.png' do
+      @link = backend.get_link(params[:name])
+      if @link
+        content_type :png
+        RQRCode::QRCode.new(link_url(@link), level: :m).as_png(size: 120).to_datastream.to_s
+      else
+        halt 404, "not found"
+      end
     end
-    get '/+/links/:name/pdf' do
+    get '/+/links/:name/simple.pdf' do
+      @link = backend.get_link(params[:name])
+      if @link
+        content_type :pdf
+        Prawn::Document.new(page_size: [cm2pt(2), cm2pt(2)], margin: 0) do |pdf|
+          pdf.print_qr_code(link_url(@link), level: :m, extent: cm2pt(2), stroke: false)
+        end.render
+      else
+        halt 404, "not found"
+      end
     end
 
     get '/+/links/:name/edit' do

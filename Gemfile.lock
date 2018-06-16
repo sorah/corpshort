@@ -4,14 +4,17 @@ PATH
     corpshort (0.1.0)
       aws-sdk-dynamodb
       erubi
+      prawn
+      prawn-qrcode
       rack-protection
       redis
+      rqrcode
       sinatra
 
 GEM
   remote: https://rubygems.org/
   specs:
-    aws-eventstream (1.0.0)
+    aws-eventstream (1.0.1)
     aws-partitions (1.91.0)
     aws-sdk-core (3.21.2)
       aws-eventstream (~> 1.0)
@@ -22,16 +25,26 @@ GEM
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.2)
+    chunky_png (1.3.10)
     diff-lcs (1.3)
     erubi (1.7.1)
     jmespath (1.4.0)
     mustermann (1.0.2)
+    pdf-core (0.7.0)
+    prawn (2.2.2)
+      pdf-core (~> 0.7.0)
+      ttfunk (~> 1.5)
+    prawn-qrcode (0.3.0)
+      prawn (>= 1)
+      rqrcode (>= 0.4.1)
     puma (3.11.4)
     rack (2.0.5)
     rack-protection (2.0.3)
       rack
     rake (12.3.1)
     redis (4.0.1)
+    rqrcode (0.10.1)
+      chunky_png (~> 1.0)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -51,6 +64,7 @@ GEM
       rack-protection (= 2.0.3)
       tilt (~> 2.0)
     tilt (2.0.8)
+    ttfunk (1.5.1)
 
 PLATFORMS
   ruby

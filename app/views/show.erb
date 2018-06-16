@@ -1,9 +1,20 @@
-<h1><%= link_url(@link) %></h1>
+<section class='link'>
+  <header>
+    <h2><a href="<%= link_url(@link) %>"><%= base_url.gsub(%r{\A.+://}, '') %>/<%= @link.name %></a></h2>
+    <a href='#' class='btn-link copy_btn' data-value="<%= link_url(@link) %>">Copy</a>
+    <a href="<%= edit_path(@link) %>" class='btn-link'>Edit</a>
+  </header>
 
-<a href="<%= edit_path(@link) %>">Edit</a>
+  <p><a class='link-url' href="<%= @link.url %>"><%= @link.url %></a></p>
 
-<p>URL: <a href="<%= @link.url %>"><%= @link.url %></a></p>
-
-<nav>
-  <p><a href="<%= urls_path(@link.url) %>">List all links for this URL</a></p>
-</nav>
+  <div class='infos'>
+    <section>
+      <h3>Barcode</h3>
+    </section>
+    <section>
+      <h3>Actions</h3>
+      <nav>
+        <p><a href="<%= urls_path(@link.url) %>">List all links for this URL</a></p>
+      </nav>
+    </section>
+</section>

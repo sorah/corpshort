@@ -72,6 +72,20 @@ body {
   color: #A94442;
 }
 
+.btn-link {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+
+  padding: 3px 5px;
+
+  border: 1px solid #337ab7;
+  border-radius: 3px;
+
+  color: #337ab7;
+
+  text-decoration: none;
+}
 
 .box input, .box button {
   -moz-box-sizing: border-box;
@@ -166,8 +180,38 @@ header.header nav a {
 .infos {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .infos > section {
   min-width: 30%;
+}
+
+/* */
+
+section.link {
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+section.link > header h2 {
+  display: inline-block;
+  margin: 0;
+}
+section.link h2 a {
+  color: #212121;
+  text-decoration: none;
+}
+section.link h2 a:hover {
+  color: #545454;
+  text-decoration: underline;
+}
+section.link header a.btn-link {
+  font-size: 12px;
+}
+
+a.link-url {
+  text-decoration: none;
+  color: #212121;
+}
+a.link-url:hover {
+  text-decoration: underline;
 }

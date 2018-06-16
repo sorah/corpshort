@@ -97,6 +97,10 @@ module Corpshort
       def urls_path(url)
         "/+/urls/#{url}"
       end
+
+      def barcode_path(link, kind, ext)
+        "/+/links/#{URI.encode_www_form_component(link.name)}/#{kind}.#{ext}"
+      end
     end
 
     get '/' do
@@ -139,35 +143,50 @@ module Corpshort
       redirect "/#{params[:name]}+"
     end
 
-    get '/+/links/:name/simple.svg' do
+    get '/+/links/:name/small.svg' do
       @link = backend.get_link(params[:name])
-      if @link
-        content_type :svg
-        RQRCode::QRCode.new(link_url(@link), level: :m).as_svg(module_size: 6)
-      else
-        halt 404, "not found"
-      end
+      halt 404, "not found" unless @link
+
+      content_type :svg
+      RQRCode::QRCode.new(link_url(@link), level: :m).as_svg(module_size: 6)
     end
-    get '/+/links/:name/simple.png' do
+    get '/+/links/:name/small.png' do
       @link = backend.get_link(params[:name])
-      if @link
-        content_type :png
-        RQRCode::QRCode.new(link_url(@link), level: :m).as_png(size: 120).to_datastream.to_s
-      else
-        halt 404, "not found"
-      end
+
+      halt 404, "not found" unless @link
+      content_type :png
+      RQRCode::QRCode.new(link_url(@link), level: :m).as_png(size: 120).to_datastream.to_s
     end
-    get '/+/links/:name/simple.pdf' do
+    get '/+/links/:name/small.pdf' do
       @link = backend.get_link(params[:name])
-      if @link
-        content_type :pdf
-        Prawn::Document.new(page_size: [cm2pt(2), cm2pt(2)], margin: 0) do |pdf|
-          pdf.print_qr_code(link_url(@link), level: :m, extent: cm2pt(2), stroke: false)
-        end.render
-      else
-        halt 404, "not found"
-      end
+      halt 404, "not found" unless @link
+
+      content_type :pdf
+      Prawn::Document.new(page_size: [cm2pt(2), cm2pt(2)], margin: 0) do |pdf|
+        pdf.print_qr_code(link_url(@link), level: :m, extent: cm2pt(2), stroke: false)
+      end.render
     end
+
+    get '/+/links/:name/large.pdf' do
+      @link = backend.get_link(params[:name])
+      halt 404, "not found" unless @link
+
+      content_type :pdf
+      Prawn::Document.new(page_size: [cm2pt(6), cm2pt(2)], margin: 0) do |pdf|
+        pdf.print_qr_code(link_url(@link), level: :m, extent: cm2pt(2), stroke: false)
+        pdf.text_box(
+          link_url(@link, protocol: false),
+          at: [cm2pt(2), cm2pt(2)],
+          width: cm2pt(4),
+          height: cm2pt(2),
+          overflow: :shrink_to_fit,
+          min_font_size: nil,
+          disable_wrap_by_char: true,
+          valign: :center
+        )
+      end.render
+    end
+
 
     get '/+/links/:name/edit' do
       @link = backend.get_link(params[:name])

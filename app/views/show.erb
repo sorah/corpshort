@@ -9,7 +9,26 @@
 
   <div class='infos'>
     <section>
-      <h3>Barcode</h3>
+      <h3>Embed</h3>
+      <div class='barcode'>
+        <img src="<%= barcode_path(@link, 'small', 'svg') %>" width='60' height='60'>
+      </div>
+      <h4>Barcode + URL (Recommended)</h4>
+      <ul>
+        <li><a href="<%= barcode_path(@link, 'large', 'pdf') %>">PDF (for Keynote)</a></li>
+      </ul>
+      <h4>Barcode Only</h4>
+      <ul>
+        <li><a href="<%= barcode_path(@link, 'small', 'pdf') %>">PDF (for Keynote)</a></li>
+        <li><a href="<%= barcode_path(@link, 'small', 'svg') %>">SVG</a></li>
+        <li><a href="<%= barcode_path(@link, 'small', 'png') %>">PNG</a></li>
+      </ul>
+    </section>
+    <section>
+      <h3>Metadata</h3>
+      <ul>
+        <li>Updated at: <%= @link.updated_at.utc.iso8601 %></li>
+      </ul>
     </section>
     <section>
       <h3>Actions</h3>

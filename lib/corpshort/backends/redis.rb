@@ -65,11 +65,12 @@ module Corpshort
         new_key = link_key(new_name)
 
         redis.watch(link_key) do
-          url = redis.hget(key, 'url')
+          url = redis.hget(link_key, 'url')
           link_url_key = url_key(url)
 
           redis.multi do |m|
             m.renamenx(link_key, new_key)
+            m.hset(new_key, 'name', new_name)
             m.zrem(links_key, link.name)
             m.zadd(links_key, link.updated_at.to_i, new_name)
             m.zrem(link_url_key, link.name)

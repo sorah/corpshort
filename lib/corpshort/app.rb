@@ -154,7 +154,7 @@ module Corpshort
       @link.url = params[:url] if params[:url]
       @link.save!
 
-      if @link.name != params[:new_name]
+      if params[:new_name] && @link.name != params[:new_name]
         new_name = link_name(params[:new_name])
         backend.rename_link(@link, new_name)
         redirect "/#{new_name}+"

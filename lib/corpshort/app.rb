@@ -46,6 +46,8 @@ module Corpshort
     use Rack::Protection::SessionHijacking
     use Rack::Protection::XSSHeader
 
+    use Rack::MethodOverride
+
     helpers do
       def context
         request.env[CONTEXT_RACK_ENV_NAME]

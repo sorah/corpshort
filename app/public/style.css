@@ -55,6 +55,11 @@ body {
   text-align: left;
   padding-top: 12px;
 }
+@media all and (max-width: 900px) {
+  .container {
+    width: 100%;
+  }
+}
 
 .box, .form, .notice, .error {
   border-radius: 3px;
@@ -151,6 +156,9 @@ header.header nav a {
 .credit {
   text-align: center;
 }
+.credit a {
+  text-decoration: underline;
+}
 
 .credit, .credit * {
   color: #767676;
@@ -185,8 +193,14 @@ header.header nav a {
 .infos {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-around;
   width: 100%;
+}
+@media all and (max-width: 900px) {
+  .infos {
+    flex-direction: column;
+  }
 }
 
 /* */

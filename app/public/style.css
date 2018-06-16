@@ -238,3 +238,10 @@ a.link-url:hover {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+/* */
+
+.copy_btn_input {
+  position: absolute;
+  left: -1000000px;
+}

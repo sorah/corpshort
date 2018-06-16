@@ -1,7 +1,7 @@
 <section class='link'>
   <header>
     <h2><a href="<%= link_url(@link) %>"><%= base_url.gsub(%r{\A.+://}, '') %>/<%= @link.name %></a></h2>
-    <a href='#' class='btn-link copy_btn' data-value="<%= link_url(@link) %>">Copy</a>
+    <a href='#' class='btn-link copy_btn'><input class='copy_btn_input' tabindex='-1' value="<%= link_url(@link) %>"><span class='copy_btn_text'>Copy</span></a>
     <a href="<%= edit_path(@link) %>" class='btn-link'>Edit</a>
   </header>
 
@@ -36,4 +36,28 @@
         <p><a href="<%= urls_path(@link.url) %>">List all links for this URL</a></p>
       </nav>
     </section>
+
+    <script type='text/javascript'>
+      "use strict";
+      document.addEventListener("DOMContentLoaded", function() {
+        const copySupported = document.queryCommandSupported("copy");
+        document.querySelectorAll(".copy_btn").forEach(function(elem) {
+          if (!copySupported) {
+            elem.className += ' hidden';
+            return;
+          }
+          elem.addEventListener("click", function(e) {
+            const value = e.currentTarget.querySelector(".copy_btn_input");
+            value.focus();
+            value.select();
+            document.execCommand("copy");
+            e.currentTarget.querySelector(".copy_btn_text").innerHTML = "Copied!";
+            e.preventDefault();
+          });
+          elem.addEventListener("mouseleave", function(e) {
+            e.currentTarget.querySelector(".copy_btn_text").innerHTML = "Copy";
+          });
+        });
+      });
+    </script>
 </section>

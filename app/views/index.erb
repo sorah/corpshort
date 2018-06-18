@@ -8,9 +8,12 @@
 </section>
 
 <div class='infos'>
-  <section>
-    <h3>Notice</h3>
-  </section>
+  <% if notice_message %>
+    <section>
+      <h3>Notice</h3>
+      <%== notice_message %>
+    </section>
+  <% end %>
   <section>
     <h3>Usage</h3>
     <form action='/+' method='GET'>

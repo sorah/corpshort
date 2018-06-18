@@ -63,6 +63,10 @@ module Corpshort
         context.fetch(:config)
       end
 
+      def notice_message
+        conf[:notice_message]
+      end
+
       def base_url
         conf[:base_url] || request.base_url
       end

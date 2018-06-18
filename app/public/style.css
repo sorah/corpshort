@@ -206,7 +206,7 @@ header.header nav a {
 /* */
 
 section.link {
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 15px;
 }
 section.link > header h2 {
@@ -223,6 +223,9 @@ section.link h2 a:hover {
 }
 section.link header a.btn-link {
   font-size: 12px;
+}
+section.link .infos {
+  margin-top: 40px;
 }
 
 a.link-url {

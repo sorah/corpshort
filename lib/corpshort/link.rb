@@ -6,6 +6,12 @@ module Corpshort
     class NoBackendError < StandardError; end
     class ValidationError < StandardError; end
 
+    NAME_REGEXP = %r{\A[a-zA-Z0-9./\-_]+\z}
+
+    def self.validate_name(name)
+      raise ValidationError, "@name should satisfy #{NAME_REGEXP}" unless name.match?(NAME_REGEXP)
+    end
+
     def initialize(data, backend: nil)
       @backend = backend
 
@@ -19,8 +25,8 @@ module Corpshort
 
     def validate!
       raise ValidationError, "@name, @url are required" unless name && url
-      raise ValidationError, "@name couldn't be empty" if name.strip.empty?
       raise ValidationError, "invalid @url (URL needs scheme and host to be considered valid)" unless parsed_url.scheme && parsed_url.host
+      self.class.validate_name(name)
     end
 
     def save!(backend = nil, create_only: false)

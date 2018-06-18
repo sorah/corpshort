@@ -213,6 +213,7 @@ module Corpshort
 
       if params[:new_name] && @link.name != params[:new_name]
         new_name = link_name(params[:new_name])
+        Link.validate_name(new_name)
         backend.rename_link(@link, new_name)
         redirect "/#{new_name}+"
       else

@@ -181,18 +181,47 @@ module Corpshort
       halt 404, "not found" unless @link
 
       content_type :pdf
-      Prawn::Document.new(page_size: [cm2pt(6), cm2pt(2)], margin: 0) do |pdf|
-        pdf.print_qr_code(link_url(@link), level: :m, extent: cm2pt(2), stroke: false)
-        pdf.text_box(
-          link_url(@link, protocol: false),
-          at: [cm2pt(2), cm2pt(2)],
-          width: cm2pt(4),
-          height: cm2pt(2),
-          overflow: :shrink_to_fit,
-          min_font_size: nil,
-          disable_wrap_by_char: true,
-          valign: :center
-        )
+
+      w,h = 7, 3
+      code_size = 3
+      url = link_url(@link)
+      Prawn::Document.new(page_size: [cm2pt(w), cm2pt(h)], margin: 0) do |pdf|
+        pdf.fill_color 'FFFFFF'
+        pdf.fill { pdf.rounded_rectangle [0, cm2pt(code_size)], cm2pt(code_size), cm2pt(code_size), 10 }
+        pdf.print_qr_code(url, level: :m, extent: cm2pt(code_size), stroke: false)
+
+        [true, false].each do |dry_run|
+          box = Prawn::Text::Formatted::Box.new(
+            [
+              {link: url, text: short_base_url.sub(%r{\A.+://}, '')},
+              {link: url, text: '/'},
+              {link: url, styles: [:bold], text: @link.name},
+            ],
+            document: pdf,
+            at: [cm2pt(code_size), cm2pt(code_size)],
+            width: cm2pt(w - code_size - 0.2),
+            height: cm2pt(h),
+            overflow: :shrink_to_fit,
+            min_font_size: nil,
+            disable_wrap_by_char: true,
+            valign: :center,
+            kerning: true,
+          )
+          box.render(dry_run: dry_run)
+          if dry_run
+            pdf.fill_color 'FFFFFF'
+            padding = cm2pt(0.2)
+            pdf.fill do
+              pdf.rounded_rectangle(
+                [box.at[0] - padding, box.at[1] + padding],
+                box.available_width + padding + padding,
+                box.height + padding + padding,
+                5,
+              )
+            end
+            pdf.fill_color '000000'
+          end
+        end
       end.render
     end
 

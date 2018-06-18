@@ -13,11 +13,11 @@
       <div class='barcode'>
         <img src="<%= barcode_path(@link, 'small', 'svg') %>" width='60' height='60'>
       </div>
-      <h4>Barcode + URL (Recommended)</h4>
+      <h4>Code + URL (Recommended)</h4>
       <ul>
         <li><a href="<%= barcode_path(@link, 'large', 'pdf') %>">PDF (for Keynote)</a></li>
       </ul>
-      <h4>Barcode Only</h4>
+      <h4>Code Only</h4>
       <ul>
         <li><a href="<%= barcode_path(@link, 'small', 'pdf') %>">PDF (for Keynote)</a></li>
         <li><a href="<%= barcode_path(@link, 'small', 'svg') %>">SVG</a></li>

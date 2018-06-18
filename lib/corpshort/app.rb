@@ -67,6 +67,11 @@ module Corpshort
         conf[:base_url] || request.base_url
       end
 
+      def short_base_url
+        conf[:short_base_url] || base_url
+      end
+
+
       def backend
         @backend ||= conf.fetch(:backend)
       end
@@ -75,7 +80,11 @@ module Corpshort
         name.tr('_', '-')
       end
 
-      def link_url(link, protocol: true)
+      def short_link_url(link, **kwargs)
+        link_url(link, base_url: short_base_url, **kwargs)
+      end
+
+      def link_url(link, protocol: true, base_url: self.base_url())
         name = link.is_a?(String) ? link_name(link) : link.name
         "#{base_url}/#{name}".yield_self do |url|
           if protocol

@@ -8,6 +8,8 @@ if ENV['RACK_ENV'] == 'production'
 end
 
 config = {
+  base_url: ENV['CORPSHORT_BASE_URL'],
+  short_base_url: ENV['CORPSHORT_SHORT_BASE_URL'],
 }
 
 case ENV.fetch('CORPSHORT_BACKEND', 'redis')

@@ -1,16 +1,26 @@
-<h1><%= link_url(@link) %></h1>
+<section>
+  <h2>Edit: <%= @link.name %></h2>
 
-<form action='<%= update_path(@link) %>' method='POST'>
-  <input type='hidden' name='_method' value='PUT'>
-  <p>Name: <input type='text' name='new_name' placeholder='short-name' value="<%= @link.name %>"></p>
-  <p>URL: <input type='text' name='url' placeholder='https://...' value="<%= @link.url %>"></p>
-  <p><input type='submit' value='Save'></p>
-</form>
+  <form action='<%= update_path(@link) %>' method='POST'>
+    <input type='hidden' name='_method' value='PUT'>
+    <div class='form-row'>
+      <label for='edit_new_name'>Name</label>
+      <input type='text' id='edit_new_name' name='new_name' placeholder='short-name' value="<%= @link.name %>">
+    </div>
+    <div class='form-row'>
+      <label for='edit_url'>URL</label>
+      <input type='text' id='edit_url' name='url' placeholder='https://...' value="<%= @link.url %>">
+    </div>
+    <input type='submit' value='Save'>
+  </form>
 
-<p>Entering a new name will create an another link for the URL. To rename completely, manually delete the old link; Be careful with renaming existing links.</p>
+  <p>Entering a new name will create an another link for the URL. To rename completely, manually delete the old link; Be careful with renaming existing links.</p>
 
-<form action='<%= update_path(@link) %>' method='POST'>
-  <input type='hidden' name='_method' value='DELETE'>
-  <p><input type='submit' value='Delete'></p>
-</form>
+  <hr>
+
+  <form action='<%= update_path(@link) %>' method='POST'>
+    <input type='hidden' name='_method' value='DELETE'>
+    <p><input type='submit' onclick="return confirm('Are you sure?')" class='btn-danger' value='Delete'></p>
+  </form>
+</section>
 

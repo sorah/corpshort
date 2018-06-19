@@ -96,6 +96,11 @@ body {
 
   text-decoration: none;
 }
+.btn-danger, input.btn-danger[type="submit"], input.btn-danger:hover[type="submit"] {
+  border: 1px solid #f2dede;
+  color: #fff;
+  background-color: #a94442;
+}
 
 .box input, .box button {
   -moz-box-sizing: border-box;
@@ -117,6 +122,17 @@ input[type="submit"], button {
 
 input[type="submit"]:hover, button:hover {
   background-color: #286090;
+}
+
+.form-row {
+  margin-bottom: 5px;
+}
+.form-row label {
+  display: inline-block;
+  width: 10%;
+}
+.form-row input {
+  width: 85%;
 }
 
 /* */

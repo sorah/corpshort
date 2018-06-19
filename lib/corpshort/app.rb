@@ -30,8 +30,11 @@ module Corpshort
     def self.rack(config={})
       klass = App
 
+      test = config[:test]
+      session = {}
       context = initialize_context(config)
       lambda { |env|
+        env['rack.session'] = session if test # FIXME:
         env[CONTEXT_RACK_ENV_NAME] = context
         klass.call(env)
       }

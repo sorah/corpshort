@@ -2,6 +2,7 @@ require 'digest/sha2'
 require 'redis'
 
 require 'corpshort/backends/base'
+require 'corpshort/link'
 
 module Corpshort
   module Backends

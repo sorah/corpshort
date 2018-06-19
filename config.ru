@@ -14,6 +14,7 @@ config = {
 
 case ENV.fetch('CORPSHORT_BACKEND', 'redis')
 when 'redis'
+  require 'corpshort/backends/redis'
   config[:backend] = Corpshort::Backends::Redis.new(
     redis: ENV.key?('REDIS_URL') ? lambda { Redis.new(url: ENV['REDIS_URL']) } : Redis.method(:current),
     prefix: ENV.fetch('CORPSHORT_REDIS_PREFIX', 'corpshort:'),

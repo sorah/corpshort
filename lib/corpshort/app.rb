@@ -172,6 +172,8 @@ module Corpshort
 
       content_type :pdf
       Prawn::Document.new(page_size: [cm2pt(2), cm2pt(2)], margin: 0) do |pdf|
+        pdf.fill_color 'FFFFFF'
+        pdf.fill { pdf.rounded_rectangle [cm2pt(2), cm2pt(2)], cm2pt(2), cm2pt(2), 10 }
         pdf.print_qr_code(link_url(@link), level: :m, extent: cm2pt(2), stroke: false)
       end.render
     end

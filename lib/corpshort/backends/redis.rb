@@ -53,8 +53,8 @@ module Corpshort
           link_url_key = url_key(url)
 
           redis.multi do |m|
-            m.zrem(links_key, link.name)
-            m.zrem(link_url_key, link.name)
+            m.zrem(links_key, link)
+            m.zrem(link_url_key, link)
             m.del(key)
           end
         end

@@ -83,7 +83,7 @@ module Corpshort
             exclusive_start_key: last_key ? last_key : nil,
             key_condition_expression: 'updated_at_partition = :partition',
             expression_attribute_values: {":partition" => partition.strftime('%Y-%m')},
-            limit: 1 || limit,
+            limit: limit,
           )
 
           unless result.items.empty?

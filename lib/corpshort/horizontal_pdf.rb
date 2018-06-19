@@ -13,7 +13,7 @@ module Corpshort
       @flex = flex
 
       if @flex
-        @width = code_size + required_width_for_url_box + padding + padding
+        @width = code_size + required_width_for_url_box + padding + padding + padding
       end
     end
 
@@ -54,7 +54,7 @@ module Corpshort
         text,
         document: pdf,
         at: [code_size, code_size],
-        width: w - code_size - 0.2,
+        width: w - code_size - padding - padding,
         height: h,
         overflow: :shrink_to_fit,
         min_font_size: nil,

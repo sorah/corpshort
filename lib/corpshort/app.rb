@@ -179,7 +179,58 @@ module Corpshort
       end.render
     end
 
-    get '/+/links/*name/large.pdf' do
+    get '/+/links/*name/vertical.pdf' do
+      @link = backend.get_link(params[:name])
+      halt 404, "not found" unless @link
+
+      content_type :pdf
+
+      w,h = 6, 4
+      code_size = 3
+      padding = cm2pt(0.2)
+      url = link_url(@link)
+      Prawn::Document.new(page_size: [cm2pt(w), cm2pt(h)], margin: 0) do |pdf|
+        code_pos = [cm2pt((w-code_size)/2.0), cm2pt(h)]
+        pdf.fill_color 'FFFFFF'
+        pdf.fill { pdf.rounded_rectangle code_pos, cm2pt(code_size), cm2pt(code_size), 5 }
+        pdf.print_qr_code(url, level: :m, pos: code_pos, extent: cm2pt(code_size), stroke: false)
+
+        [true, false].each do |dry_run|
+          box = Prawn::Text::Formatted::Box.new(
+            [
+              {link: url, text: short_base_url.sub(%r{\A.+://}, '')},
+              {link: url, text: '/'},
+              {link: url, styles: [:bold], text: @link.name},
+            ],
+            document: pdf,
+            at: [padding, cm2pt(h-code_size)-padding],
+            width: cm2pt(w) - padding - padding,
+            height: cm2pt(h-code_size) - padding - padding,
+            overflow: :shrink_to_fit,
+            min_font_size: nil,
+            disable_wrap_by_char: true,
+            align: :center,
+            valign: :center,
+            kerning: true,
+          )
+          box.render(dry_run: dry_run)
+          if dry_run
+            pdf.fill_color 'FFFFFF'
+            pdf.fill do
+              pdf.rounded_rectangle(
+                [box.at[0] - padding, box.at[1] + padding],
+                box.available_width + padding + padding,
+                box.height + padding + padding,
+                5,
+              )
+            end
+            pdf.fill_color '000000'
+          end
+        end
+      end.render
+    end
+
+    get '/+/links/*name/horizontal.pdf' do
       @link = backend.get_link(params[:name])
       halt 404, "not found" unless @link
 

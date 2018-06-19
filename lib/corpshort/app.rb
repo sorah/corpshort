@@ -152,25 +152,21 @@ module Corpshort
       erb :list
     end
 
-    get '/+/links/:name' do
-      redirect "/#{params[:name]}+"
-    end
-
-    get '/+/links/:name/small.svg' do
+    get '/+/links/*name/small.svg' do
       @link = backend.get_link(params[:name])
       halt 404, "not found" unless @link
 
       content_type :svg
       RQRCode::QRCode.new(link_url(@link), level: :m).as_svg(module_size: 6)
     end
-    get '/+/links/:name/small.png' do
+    get '/+/links/*name/small.png' do
       @link = backend.get_link(params[:name])
 
       halt 404, "not found" unless @link
       content_type :png
       RQRCode::QRCode.new(link_url(@link), level: :m).as_png(size: 120).to_datastream.to_s
     end
-    get '/+/links/:name/small.pdf' do
+    get '/+/links/*name/small.pdf' do
       @link = backend.get_link(params[:name])
       halt 404, "not found" unless @link
 
@@ -180,7 +176,7 @@ module Corpshort
       end.render
     end
 
-    get '/+/links/:name/large.pdf' do
+    get '/+/links/*name/large.pdf' do
       @link = backend.get_link(params[:name])
       halt 404, "not found" unless @link
 
@@ -230,7 +226,7 @@ module Corpshort
     end
 
 
-    get '/+/links/:name/edit' do
+    get '/+/links/*name/edit' do
       @link = backend.get_link(params[:name])
       if @link
         erb :edit
@@ -239,7 +235,11 @@ module Corpshort
       end
     end
 
-    put '/+/links/:name' do
+    get '/+/links/*name' do
+      redirect "/#{params[:name]}+"
+    end
+
+    put '/+/links/*name' do
       @link = backend.get_link(params[:name])
       @link.url = params[:url] if params[:url]
       @link.save!
@@ -254,7 +254,7 @@ module Corpshort
       end
     end
 
-    delete '/+/links/:name' do
+    delete '/+/links/*name' do
       backend.delete_link(params[:name])
       redirect "/"
     end
@@ -282,7 +282,7 @@ module Corpshort
 
     ## Shortlink
 
-    get '/:name' do
+    get '/*name' do
       name = params[:name]
       show = name.end_with?('+')
       if show

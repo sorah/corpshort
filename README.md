@@ -20,9 +20,14 @@ Or install it yourself as:
 
     $ gem install corpshort
 
-## Usage
+## Setup
+
+### DynamoDB
+
+![](https://img.sorah.jp/s/2018-06-19_1406_hxxjt.png)
 
 TODO: Write usage instructions here
+
 
 ## Development
 

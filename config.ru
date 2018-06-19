@@ -19,6 +19,12 @@ when 'redis'
     redis: ENV.key?('REDIS_URL') ? lambda { Redis.new(url: ENV['REDIS_URL']) } : Redis.method(:current),
     prefix: ENV.fetch('CORPSHORT_REDIS_PREFIX', 'corpshort:'),
   )
+when 'dynamodb'
+  require 'corpshort/backends/dynamodb'
+  config[:backend] = Corpshort::Backends::Dynamodb.new(
+    region: ENV.fetch('CORPSHORT_DYNAMODB_REGION'),
+    table: ENV.fetch('CORPSHORT_DYNAMODB_TABLE'),
+  )
 else
   raise ArgumentError, "Unsupported $CORPSHORT_BACKEND"
 end

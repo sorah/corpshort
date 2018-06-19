@@ -114,8 +114,8 @@ module Corpshort
         "/+/urls/#{url}"
       end
 
-      def barcode_path(link, kind, ext)
-        "/+/links/#{URI.encode_www_form_component(link.name)}/#{kind}.#{ext}"
+      def barcode_path(link, kind, ext, flex: nil)
+        "/+/links/#{URI.encode_www_form_component(link.name)}/#{kind}.#{ext}#{flex.nil? ? nil : "?flex=#{flex}"}"
       end
     end
 
@@ -191,7 +191,7 @@ module Corpshort
         url: link_url(@link),
         base_url: short_base_url.sub(%r{\A.+://}, ''),
         name: @link.name,
-        flex: false
+        flex: params[:flex],
       ).document.render
     end
 
@@ -204,7 +204,7 @@ module Corpshort
         url: link_url(@link),
         base_url: short_base_url.sub(%r{\A.+://}, ''),
         name: @link.name,
-        flex: false
+        flex: params[:flex],
       ).document.render
     end
 
@@ -224,6 +224,8 @@ module Corpshort
 
     put '/+/links/*name' do
       @link = backend.get_link(params[:name])
+      halt 404, "not found" unless @link
+
       @link.url = params[:url] if params[:url]
 
       rename = params[:new_name] && @link.name != params[:new_name]

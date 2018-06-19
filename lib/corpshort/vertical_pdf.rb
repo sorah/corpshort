@@ -9,10 +9,16 @@ module Corpshort
       @url = url
       @base_url = base_url
       @name = name
+
+      @flex = flex
+
+      if @flex
+        @width = code_size + required_width_for_url_box + padding + padding
+      end
     end
 
     def w
-      cm2pt(6)
+      @width || cm2pt(6)
     end
 
     def h
@@ -33,6 +39,14 @@ module Corpshort
         {link: @url, text: '/'},
         {link: @url, styles: [:bold], text: @name},
       ]
+    end
+
+    def required_width_for_url_box
+      doc = Prawn::Document.new(page_size: [cm2pt(5),cm2pt(5)], margin: 0)
+      doc.font_size = 12
+      text.inject(0) do |r,t|
+        r + doc.width_of(t.fetch(:text), style: t[:styles]&.first)
+      end
     end
 
     def url_box
@@ -85,7 +99,9 @@ module Corpshort
     end
 
     def pdf
-      @pdf ||= Prawn::Document.new(page_size: [w,h], margin: 0)
+      @pdf ||= Prawn::Document.new(page_size: [w,h], margin: 0).tap do |pdf|
+        pdf.font_size = 12
+      end
     end
   end
 end

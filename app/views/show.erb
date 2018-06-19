@@ -16,11 +16,13 @@
       <p>Use PDF for Keynote</p>
       <h4>Code + URL (Horizontal)</h4>
       <ul>
-        <li><a href="<%= barcode_path(@link, 'horizontal', 'pdf') %>">PDF</a></li>
+        <li><a href="<%= barcode_path(@link, 'horizontal', 'pdf', flex: true) %>">PDF</a></li>
+        <li><a href="<%= barcode_path(@link, 'horizontal', 'pdf') %>">PDF (Short)</a></li>
       </ul>
       <h4>Code + URL (Vertical)</h4>
       <ul>
-        <li><a href="<%= barcode_path(@link, 'vertical', 'pdf') %>">PDF</a></li>
+        <li><a href="<%= barcode_path(@link, 'vertical', 'pdf', flex: true) %>">PDF</a></li>
+        <li><a href="<%= barcode_path(@link, 'vertical', 'pdf') %>">PDF (Short)</a></li>
       </ul>
       <h4>Code Only</h4>
       <p class='small'>Code + URL is recommended</p>

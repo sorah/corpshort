@@ -1,33 +1,48 @@
-# Corpshort
+# Corpshort: internal shortlink service
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/corpshort`. To experiment with that code, run `bin/console` for an interactive prompt.
+Yet another go/ shortlink service.
 
-TODO: Delete this and the text above, and describe your gem
+## Features
 
-## Installation
+- Create, Edit, and Delete links
+- Supports Redis or DynamoDB out-of-the-box
+- QR Code generation for embedding on posters
 
-Add this line to your application's Gemfile:
+## Screenshots
 
-```ruby
-gem 'corpshort'
-```
+![screenshot of link editing page](https://img.sorah.jp/s/2018-06-19_1606_208mm.png)
+![embedding PDF in Keynote](https://img.sorah.jp/s/2018-06-19_1606_l7q6g.png)
 
-And then execute:
 
-    $ bundle
+## Set up
 
-Or install it yourself as:
+Corpshort is a Rack application.
 
-    $ gem install corpshort
+See [config.ru](./config.ru) for detailed configuration. The following environment variable is supported by the bundled config.ru.
 
-## Setup
+- `SECRET_KEY_BASE` (required)
+- `CORPSHORT_BASE_URL` (optional): Base URL to use in links (e.g. `http://go.corp.example.com`)
+- `CORPSHORT_SHORT_BASE_URL` (optional): Alternative shorter base URL to present, used on texts (e.g. `http://go`)
+- Backend:
+  - `CORPSHORT_BACKEND` = `redis`: Use redis as a backend store
+    - `REDIS_URL` (optional)
+    - `CORPSHORT_REDIS_PREFIX` (optional, default: `corpshort:`)
+  - `CORPSHORT_BACKEND` = `dynamodb`: Use dynamodb as a backend store
+    - `CORPSHORT_DYNAMODB_REGION`
+    - `CORPSHORT_DYNAMODB_TABLE`
 
-### DynamoDB
+### DynamoDB Table:
+
+- primary key: `name`
+- GSI:
+  - `url-updated_at-index`:
+    - primary: `url` (String)
+    - sort: `updated_at` (String)
+  - `updated_at_partition-updated_at-index`:
+    - primary: `updated_at_partition` (String)
+    - sort: `updated_at` (String)
 
 ![](https://img.sorah.jp/s/2018-06-19_1406_hxxjt.png)
-
-TODO: Write usage instructions here
-
 
 ## Development
 

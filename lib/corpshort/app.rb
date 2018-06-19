@@ -86,6 +86,12 @@ module Corpshort
         @backend ||= conf.fetch(:backend)
       end
 
+      def random_name
+        chars_a = [*('A'..'Z')]
+        chars_b = [*('a'..'z'), *('0'..'9')]
+        [*1.times.map { |_| chars_a.sample }, *3.times.map { |_| chars_b.sample }].shuffle.join
+      end
+
       def link_name(name = params[:name])
         name.tr('_', '-')
       end
@@ -136,17 +142,35 @@ module Corpshort
     end
 
     post '/+/links' do
-      unless params[:name] && params[:url]
+      unless params[:url]
         session[:error] = "Name and URL are required"
         redirect '/'
       end
 
+      name_given = params[:name] && !params[:name].strip.empty?
+      name = link_name(name_given ? params[:name] : random_name)
+      retries = 0
       begin
-        link = Link.new({name: link_name, url: params[:url]})
+        link = Link.new({name: name, url: params[:url]})
         link.save!(backend, create_only: true)
-      rescue Corpshort::Link::ValidationError, Corpshort::Backends::Base::ConflictError
+      rescue Corpshort::Link::ValidationError
         session[:error] = $!.message
         redirect '/'
+      rescue Corpshort::Backends::Base::ConflictError
+        if name_given
+          session[:error] = 'Link with the specified name already exists'
+          redirect '/'
+        else
+          name = link_name(random_name)
+          retries += 1
+          if retries > 20
+            session[:error] = 'Could not generate unique name. Try again later.'
+            redirect '/'
+          else
+            sleep 0.1
+            retry
+          end
+        end
       end
 
       redirect "/#{link.name}+"

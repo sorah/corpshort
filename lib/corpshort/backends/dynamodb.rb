@@ -94,6 +94,7 @@ module Corpshort
           last_key = nil
           sleep 0.05
         end
+        return [[], nil]
       end
 
       private

@@ -253,7 +253,12 @@ module Corpshort
         # backend.rename_link(@link, new_name)
       end
 
-      @link.save!(backend, create_only: rename)
+      begin
+        @link.save!(backend, create_only: rename)
+      rescue Corpshort::Link::ValidationError, Corpshort::Backends::Base::ConflictError
+        session[:error] = $!.message
+        redirect "/+/links/#{@link.name}/edit"
+      end
 
       redirect "/#{@link.name}+"
     end

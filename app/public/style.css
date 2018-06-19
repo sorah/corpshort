@@ -242,6 +242,60 @@ a.link-url:hover {
   padding-bottom: 10px;
 }
 
+.barcode-style {
+  min-height: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.barcode-style ul {
+  padding: 0;
+}
+.barcode-style li {
+  list-style-type: none;
+}
+.barcode-style-diagram {
+  height: 50px;
+  width: 50px;
+  margin: 5px;
+}
+.barcode-style-diagram-url {
+  background-color: #545454;
+  width: 50%;
+  height: 15%;
+}
+.barcode-style-diagram-code {
+  background-color: #212121;
+  border-radius: 3px;
+  width: 35%;
+  height: 35%;
+}
+
+.barcode-style-diagram-cu-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.barcode-style-diagram-cu-vertical {
+  text-align: center;
+}
+.barcode-style-diagram-cu-vertical .barcode-style-diagram-code {
+  margin-top: 40%;
+  margin-bottom: 4%;
+}
+.barcode-style-diagram-cu-vertical div {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.barcode-style-diagram-codeonly {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
 /* */
 
 .copy_btn_input {

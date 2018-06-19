@@ -77,7 +77,7 @@ module Corpshort
     end
 
     def to_json
-      to_h.to_json
+      as_json.to_json
     end
   end
 end

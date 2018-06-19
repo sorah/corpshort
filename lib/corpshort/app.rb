@@ -2,6 +2,7 @@ require 'rqrcode'
 require 'prawn'
 require 'prawn/qrcode'
 
+require 'json'
 require 'erubi'
 require 'sinatra/base'
 require 'rack/protection'
@@ -278,15 +279,64 @@ module Corpshort
     ## API
 
     get '/+api/links' do
+      content_type :json
+      links, next_token = backend.list_links(token: params[:token])
+      {links: links, next_token: next_token}.to_json
     end
 
-    get '/+api/links/:name' do
+    post '/+api/links' do
+      content_type :json
+
+      unless params[:name] && params[:url]
+        halt 400, '{"error": "missing_params", "error_message": "name and url are required"}'
+      end
+
+      begin
+        link = Link.new({name: link_name, url: params[:url]})
+        link.save!(backend, create_only: true)
+      rescue Corpshort::Link::ValidationError => e
+        halt(400, {error: :validation_error, error_message: e.message}.to_json)
+      rescue Corpshort::Backends::Base::ConflictError
+        halt(409, {error: :conflict, error_message: e.message}.to_json)
+      end
+
+      link.to_json
+    end
+
+    get '/+api/links/*name' do
+      content_type :json
+      link = backend.get_link(link_name)
+      halt 404, '{"error": "not_found"}' unless link
+      link.to_json
+    end
+
+    put '/+api/links/*name' do
+      content_type :json
+      link = backend.get_link(link_name)
+      halt 404, '{"error": "not_found"}' unless link
+      link.url = params[:url] if params[:url]
+
+      begin
+        link.save!(backend)
+      rescue Corpshort::Link::ValidationError => e
+        halt(400, {error: :validation_error, error_message: e.message}.to_json)
+      rescue Corpshort::Backends::Base::ConflictError
+        halt(409, {error: :conflict, error_message: e.message}.to_json)
+      end
+      link.to_json
+    end
+
+    delete '/+api/links/*name' do
+      backend.delete_link(link_name)
+      status 202
+      ""
     end
 
     get '/+api/urls/*url' do
-    end
-
-    put '/+api/links/:name' do
+      content_type :json
+      url = env['REQUEST_URI'][8..-1]
+      links, next_token = backend.list_links_by_url(url), nil
+      {links: links, next_token: next_token}.to_json
     end
 
     ## Shortlink

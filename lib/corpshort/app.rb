@@ -244,16 +244,18 @@ module Corpshort
     put '/+/links/*name' do
       @link = backend.get_link(params[:name])
       @link.url = params[:url] if params[:url]
-      @link.save!
 
-      if params[:new_name] && @link.name != params[:new_name]
+      rename = params[:new_name] && @link.name != params[:new_name]
+      if rename
         new_name = link_name(params[:new_name])
-        Link.validate_name(new_name)
-        backend.rename_link(@link, new_name)
-        redirect "/#{new_name}+"
-      else
-        redirect "/#{@link.name}+"
+        @link = Link.new(name: new_name, url: @link.url)
+        # Link.validate_name(new_name)
+        # backend.rename_link(@link, new_name)
       end
+
+      @link.save!(backend, create_only: rename)
+
+      redirect "/#{@link.name}+"
     end
 
     delete '/+/links/*name' do

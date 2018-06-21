@@ -147,17 +147,19 @@ module Corpshort
         redirect '/'
       end
 
-      name_given = params[:name] && !params[:name].strip.empty?
-      name = link_name(name_given ? params[:name] : random_name)
+      name_given = params[:linkname] && !params[:linkname].strip.empty?
+      name = link_name(name_given ? params[:linkname] : random_name)
       retries = 0
       begin
         link = Link.new({name: name, url: params[:url]})
         link.save!(backend, create_only: true)
       rescue Corpshort::Link::ValidationError
+        session[:last_form] = {linkname: link.name, url: link.url}
         session[:error] = $!.message
         redirect '/'
       rescue Corpshort::Backends::Base::ConflictError
         if name_given
+          session[:last_form] = {linkname: link.name, url: link.url}
           session[:error] = 'Link with the specified name already exists'
           redirect '/'
         else
@@ -173,6 +175,7 @@ module Corpshort
         end
       end
 
+      session[:last_form] = nil
       redirect "/#{link.name}+"
     end
 

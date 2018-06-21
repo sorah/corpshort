@@ -357,10 +357,12 @@ module Corpshort
         name = name[0..-2]
       end
 
-      @link = backend.get_link(link_name(name))
+      @link_name = link_name(name)
+      @link = backend.get_link(@link_name)
 
       unless @link
-        halt 404, 'not found'
+        status 404
+        return erb(:'404')
       end
 
       if show

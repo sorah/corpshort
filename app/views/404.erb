@@ -4,7 +4,7 @@
   <form action='/+/links' method='POST'>
     <p><input type='text' name='url' placeholder='https://...' class='new-link-url' autocomplete=off></p>
     <p class='new-link-down'>⬇︎</p>
-    <p><input type='text' name='linkname' placeholder='Choose a short name (Recommended)' class='new-link-name' autocomplete=off></p>
+    <p><input type='text' name='linkname' value="<%= @link_name.gsub(?", '') %>" placeholder='Choose a short name (Recommended)' class='new-link-name' autocomplete=off></p>
     <p><input type='submit' value='Shorten'></p>
   </form>
 </section>

@@ -120,7 +120,7 @@ module Corpshort
       end
 
       def urls_path(url)
-        "/+/urls/#{url}"
+        "/+/urls/#{url.sub(%r{://}, '/')}"
       end
 
       def barcode_path(link, kind, ext, flex: nil)
@@ -282,7 +282,7 @@ module Corpshort
     end
 
     get '/+/urls/*url' do
-      url = env['REQUEST_URI'][8..-1]
+      url = params[:url].sub(%r{\A(https?)/}, '\1://')
       @links, @next_token = backend.list_links_by_url(url), nil
       @title = "Links for URL #{url}"
       erb :list
@@ -346,7 +346,7 @@ module Corpshort
 
     get '/+api/urls/*url' do
       content_type :json
-      url = env['REQUEST_URI'][8..-1]
+      url = params[:url].sub(%r{\A(https?)/}, '\1://')
       links, next_token = backend.list_links_by_url(url), nil
       {links: links, next_token: next_token}.to_json
     end

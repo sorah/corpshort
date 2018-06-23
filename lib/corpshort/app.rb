@@ -126,6 +126,13 @@ module Corpshort
       def barcode_path(link, kind, ext, flex: nil)
         "/+/links/#{URI.encode_www_form_component(link.name)}/#{kind}.#{ext}#{flex.nil? ? nil : "?flex=#{flex}"}"
       end
+
+      def render_link_json(link)
+        link.as_json.merge(
+          link_url: link_url(link),
+          short_link_url: short_link_url(link),
+        )
+      end
     end
 
     get '/' do
@@ -312,14 +319,14 @@ module Corpshort
         halt(409, {error: :conflict, error_message: e.message}.to_json)
       end
 
-      link.to_json
+      render_link_json(link)
     end
 
     get '/+api/links/*name' do
       content_type :json
       link = backend.get_link(link_name)
       halt 404, '{"error": "not_found"}' unless link
-      link.to_json
+      render_link_json(link)
     end
 
     put '/+api/links/*name' do
@@ -335,7 +342,7 @@ module Corpshort
       rescue Corpshort::Backends::Base::ConflictError
         halt(409, {error: :conflict, error_message: e.message}.to_json)
       end
-      link.to_json
+      render_link_json(link)
     end
 
     delete '/+api/links/*name' do

@@ -344,11 +344,18 @@ module Corpshort
       ""
     end
 
+    get '/+api/urls' do
+      content_type :json
+      halt 400, '{"error": "missing_params"}' unless params[:url]
+      links = backend.list_links_by_url(params[:url])
+      {links: links}.to_json
+    end
+
     get '/+api/urls/*url' do
       content_type :json
       url = params[:url].sub(%r{\A(https?)/}, '\1://')
-      links, next_token = backend.list_links_by_url(url), nil
-      {links: links, next_token: next_token}.to_json
+      links = backend.list_links_by_url(url)
+      {links: links}.to_json
     end
 
     ## Shortlink

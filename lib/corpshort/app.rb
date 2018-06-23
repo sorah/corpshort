@@ -132,7 +132,7 @@ module Corpshort
           show_url: "/#{link.name}+",
           link_url: link_url(link),
           short_link_url: short_link_url(link),
-        )
+        ).to_json
       end
     end
 

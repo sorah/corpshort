@@ -154,6 +154,11 @@ module Corpshort
         redirect '/'
       end
 
+      @links = backend.list_links_by_url(params[:url])
+      if !@links.empty? && !params[:dupe_ack]
+        return erb(:duplication_confirm)
+      end
+
       name_given = params[:linkname] && !params[:linkname].strip.empty?
       name = link_name(name_given ? params[:linkname] : random_name)
       retries = 0

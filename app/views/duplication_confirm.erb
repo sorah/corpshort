@@ -1,0 +1,19 @@
+<p>Oh? The URL you're trying to shorten has already been shortened to the following names:</p>
+
+<section class='link-list'>
+  <ul>
+    <% @links.each do |name| %>
+      <li><a href='/<%= name %>+'><%= name %></a></li>
+    <% end %>
+  </ul>
+</section>
+
+<p>Of course we can proceed to create a new link with the name you proposed:</p>
+
+<%==
+  erb(:form, locals: {
+    url: params[:url],
+    linkname: params[:linkname],
+    dupe_ack: true,
+  })
+%>

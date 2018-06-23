@@ -1,6 +1,7 @@
-<%- url ||= nil; linkname ||= nil -%>
+<%- url ||= nil; linkname ||= nil; dupe_ack ||= nil -%>
 <section class='new-link'>
   <form action='/+/links' method='POST'>
+    <%- if dupe_ack -%><input type='hidden' name='dupe_ack' value='1'><%- end -%>
     <p><input type='text' name='url' placeholder='https://...' value="<%= url&.sub(?", '')  %>" class='new-link-url' autocomplete=off></p>
     <p class='new-link-down'>⬇︎</p>
     <p><input type='text' name='linkname' placeholder='Choose a short name (Recommended)' value="<%= linkname&.sub(?", '') %>" class='new-link-name' autocomplete=off></p>

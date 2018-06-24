@@ -129,7 +129,7 @@ module Corpshort
 
       def render_link_json(link)
         link.as_json.merge(
-          show_url: "/#{link.name}+",
+          show_url: "#{base_url}/#{link.name}+",
           link_url: link_url(link),
           short_link_url: short_link_url(link),
         ).to_json

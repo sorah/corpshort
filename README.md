@@ -44,6 +44,37 @@ See [config.ru](./config.ru) for detailed configuration. The following environme
 
 ![](https://img.sorah.jp/s/2018-06-19_1406_hxxjt.png)
 
+## API
+
+- All parameters are accepted in x-www-form-encoded.
+- All APIs returns a JSON.
+
+### Endpoints
+
+#### Recent links: GET `/+api/links`
+
+- Parameters:
+  - `token` (optional)
+- Returns link names (`{links: [""], next_token: ""}`)
+
+### Create a link: POST `/+api/links`
+
+- takes `name` and `url`
+- Returns a link.
+
+### GET `/+api/links/*name`
+
+- Returns a link.
+
+### DELETE `/+api/links/*name`
+
+- Deletes a link.
+
+### GET `/+api/urls`
+
+- Takes `url` parameter
+- Returns link names.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

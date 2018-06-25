@@ -49,6 +49,21 @@ See [config.ru](./config.ru) for detailed configuration. The following environme
 - All parameters are accepted in x-www-form-encoded.
 - All APIs returns a JSON.
 
+### Objecta
+
+#### Link
+
+``` json
+{
+  "name": "Name",
+  "url": "https://example.org",
+  "updated_at": "2018-06-25T18:32:17Z"
+  "show_url": "https://localhost/Name+",
+  "link_url": "https://localhost/Name",
+  "short_link_url": "https://go/Name",
+}
+```
+
 ### Endpoints
 
 #### Recent links: GET `/+api/links`

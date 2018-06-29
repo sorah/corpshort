@@ -21,7 +21,7 @@ module Corpshort
           old_url = redis.hget(key, 'url')
 
           if create_only && old_url
-            redis.unwatch(key)
+            redis.unwatch()
             raise ConflictError, "#{link.name} already exists"
           end
 

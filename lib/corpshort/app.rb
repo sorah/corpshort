@@ -321,7 +321,7 @@ module Corpshort
         link.save!(backend, create_only: true)
       rescue Corpshort::Link::ValidationError => e
         halt(400, {error: :validation_error, error_message: e.message}.to_json)
-      rescue Corpshort::Backends::Base::ConflictError
+      rescue Corpshort::Backends::Base::ConflictError => e
         halt(409, {error: :conflict, error_message: e.message}.to_json)
       end
 
@@ -345,7 +345,7 @@ module Corpshort
         link.save!(backend)
       rescue Corpshort::Link::ValidationError => e
         halt(400, {error: :validation_error, error_message: e.message}.to_json)
-      rescue Corpshort::Backends::Base::ConflictError
+      rescue Corpshort::Backends::Base::ConflictError => e
         halt(409, {error: :conflict, error_message: e.message}.to_json)
       end
       render_link_json(link)

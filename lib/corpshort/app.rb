@@ -203,14 +203,14 @@ module Corpshort
       halt 404, "not found" unless @link
 
       content_type :svg
-      RQRCode::QRCode.new(link_url(@link), level: :m).as_svg(module_size: 6)
+      RQRCode::QRCode.new(link_url(@link), level: params[:level] ? params[:level].to_sym : :m).as_svg(module_size: params[:size] ? params[:size].to_i : 6)
     end
     get '/+/links/*name/small.png' do
       @link = backend.get_link(params[:name])
 
       halt 404, "not found" unless @link
       content_type :png
-      RQRCode::QRCode.new(link_url(@link), level: :m).as_png(size: 120).to_datastream.to_s
+      RQRCode::QRCode.new(link_url(@link), level: params[:level] ? params[:level].to_sym : :m).as_png(size: params[:size] ? params[:size].to_i : 120).to_datastream.to_s
     end
     get '/+/links/*name/small.pdf' do
       @link = backend.get_link(params[:name])
@@ -220,7 +220,7 @@ module Corpshort
       Prawn::Document.new(page_size: [cm2pt(2), cm2pt(2)], margin: 0) do |pdf|
         pdf.fill_color 'FFFFFF'
         pdf.fill { pdf.rounded_rectangle [cm2pt(2), cm2pt(2)], cm2pt(2), cm2pt(2), 10 }
-        pdf.print_qr_code(link_url(@link), level: :m, extent: cm2pt(2), stroke: false)
+        pdf.print_qr_code(link_url(@link), level: params[:level] ? params[:level].to_sym : :m, extent: cm2pt(2), stroke: false)
       end.render
     end
 

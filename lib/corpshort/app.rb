@@ -316,6 +316,13 @@ module Corpshort
         halt 400, '{"error": "missing_params", "error_message": "name and url are required"}'
       end
 
+      if params[:avoid_duplicate]
+        existing_link = backend.list_links_by_url(params[:url])&.first
+        if existing_link
+          return render_link_json(backend.get_link(existing_link))
+        end
+      end
+
       begin
         link = Link.new({name: link_name, url: params[:url]})
         link.save!(backend, create_only: true)

@@ -274,7 +274,7 @@ module Corpshort
       rename = params[:new_name] && @link.name != params[:new_name]
       if rename
         new_name = link_name(params[:new_name])
-        @link = Link.new(name: new_name, url: @link.url)
+        @link = Link.new({name: new_name, url: @link.url})
         # Link.validate_name(new_name)
         # backend.rename_link(@link, new_name)
       end

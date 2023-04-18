@@ -164,7 +164,7 @@ module Corpshort
       name = link_name(name_given ? params[:linkname] : random_name)
       retries = 0
       begin
-        link = Link.new({name: name, url: params[:url]})
+        link = Link.new(name: name, url: params[:url])
         link.save!(backend, create_only: true)
       rescue Corpshort::Link::ValidationError
         session[:last_form] = {linkname: link.name, url: link.url}
@@ -324,7 +324,7 @@ module Corpshort
       end
 
       begin
-        link = Link.new({name: link_name, url: params[:url]})
+        link = Link.new(name: link_name, url: params[:url])
         link.save!(backend, create_only: true)
       rescue Corpshort::Link::ValidationError => e
         halt(400, {error: :validation_error, error_message: e.message}.to_json)

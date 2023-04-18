@@ -48,7 +48,7 @@ module Corpshort
         ).items.first
 
         if item && !item.empty?
-          Link.new(item, backend: self)
+          Link.new(**item, backend: self)
         else
           nil
         end

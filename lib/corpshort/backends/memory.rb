@@ -32,7 +32,7 @@ module Corpshort
       def get_link(name)
         data = @links[name]
         if data && !data.empty?
-          Link.new(data, backend: self)
+          Link.new(**data, backend: self)
         else
           nil
         end

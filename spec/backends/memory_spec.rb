@@ -3,7 +3,7 @@ require 'corpshort/link'
 
 RSpec.describe Corpshort::Backends::Memory do
   let(:backend) { described_class.new() }
-  let(:link) { Corpshort::Link.new({url: 'https://example.org', name: 'test'}) }
+  let(:link) { Corpshort::Link.new(url: 'https://example.org', name: 'test') }
 
   describe "#put_link" do
     it "creates link" do
@@ -48,18 +48,18 @@ RSpec.describe Corpshort::Backends::Memory do
 
   describe "#list_links_by_url" do
     it "returns a list of links for a URL" do
-      backend.put_link(Corpshort::Link.new({url: 'https://example.org', name: 'a'}))
-      backend.put_link(Corpshort::Link.new({url: 'https://example.org', name: 'b'}))
-      backend.put_link(Corpshort::Link.new({url: 'https://example.com', name: 'c'}))
+      backend.put_link(Corpshort::Link.new(url: 'https://example.org', name: 'a'))
+      backend.put_link(Corpshort::Link.new(url: 'https://example.org', name: 'b'))
+      backend.put_link(Corpshort::Link.new(url: 'https://example.com', name: 'c'))
       expect(backend.list_links_by_url('https://example.org').sort).to eq %w(a b)
     end
   end
 
   describe "#list_links" do
     it "returns a list of links" do
-      backend.put_link(Corpshort::Link.new({url: 'https://example.org', name: 'a'}))
-      backend.put_link(Corpshort::Link.new({url: 'https://example.org', name: 'b'}))
-      backend.put_link(Corpshort::Link.new({url: 'https://example.com', name: 'c'}))
+      backend.put_link(Corpshort::Link.new(url: 'https://example.org', name: 'a'))
+      backend.put_link(Corpshort::Link.new(url: 'https://example.org', name: 'b'))
+      backend.put_link(Corpshort::Link.new(url: 'https://example.com', name: 'c'))
 
       links, _token = backend.list_links()
       expect(links.sort).to eq %w(a b c)

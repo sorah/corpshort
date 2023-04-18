@@ -12,13 +12,13 @@ module Corpshort
       raise ValidationError, "@name should satisfy #{NAME_REGEXP}" unless name.match?(NAME_REGEXP)
     end
 
-    def initialize(data, backend: nil)
+    def initialize(name:, url:, updated_at: nil, backend: nil)
       @backend = backend
 
-      @name = data[:name] || data['name']
-      @url = data[:url] || data['url']
+      @name = name
+      @url = url
       @parsed_url_point = nil
-      self.updated_at = data[:updated_at] || data['updated_at']
+      self.updated_at = updated_at
 
       validate!
     end

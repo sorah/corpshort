@@ -167,12 +167,12 @@ module Corpshort
         link = Link.new(name: name, url: params[:url])
         link.save!(backend, create_only: true)
       rescue Corpshort::Link::ValidationError
-        session[:last_form] = {linkname: link.name, url: link.url}
+        session[:last_form] = {linkname: name, url: params[:url]}
         session[:error] = $!.message
         redirect '/'
       rescue Corpshort::Backends::Base::ConflictError
         if name_given
-          session[:last_form] = {linkname: link.name, url: link.url}
+          session[:last_form] = {linkname: name, url: params[:url]}
           session[:error] = 'Link with the specified name already exists'
           redirect '/'
         else

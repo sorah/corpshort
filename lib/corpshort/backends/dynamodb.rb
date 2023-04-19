@@ -48,7 +48,7 @@ module Corpshort
         ).items.first
 
         if item && !item.empty?
-          Link.new(**item, backend: self)
+          Link.new(name: item["name"], url: item["url"], updated_at: item["updated_at"], backend: self)
         else
           nil
         end

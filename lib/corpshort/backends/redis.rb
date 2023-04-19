@@ -41,7 +41,7 @@ module Corpshort
       def get_link(name)
         data = redis.hgetall(link_key(name))
         if data && !data.empty?
-          Link.new(**data, backend: self)
+          Link.new(name: data["name"], url: data["url"], updated_at: data["updated_at"], backend: self)
         else
           nil
         end
